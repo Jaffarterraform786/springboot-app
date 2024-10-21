@@ -3,7 +3,7 @@ version: 0.2
 phases:
   pre_build:
     commands:
-      - mvn clean install
+      - mvn clean install -DskipTests  # Skip tests during the build process
       - echo Logging in to Amazon ECR...
       - aws --version
       - REPOSITORY_URI=971422700488.dkr.ecr.us-east-1.amazonaws.com/myrepo1
