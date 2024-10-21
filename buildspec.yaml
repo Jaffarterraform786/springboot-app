@@ -3,7 +3,7 @@ version: 0.2
 env:
   variables:
     REPOSITORY_URI: 971422700488.dkr.ecr.us-east-1.amazonaws.com/myrepo1
-    IMAGE_TAG: latest  # You can modify this to a more dynamic tag if needed
+    IMAGE_TAG: latest
 
 phases:
   install:
@@ -16,8 +16,10 @@ phases:
 
   pre_build:
     commands:
+      - echo "Cleaning the Maven cache..."
+      - mvn dependency:purge-local-repository
       - echo "Building the Maven project..."
-      - mvn clean install -DskipTests  # Build the JAR file
+      - mvn clean install -DskipTests -X  # Verbose logging
       - echo "Checking if the JAR file exists in the target/ directory..."
       - ls -al target/  # List contents of the target directory
       - if [ ! -f target/course-service.jar ]; then echo "JAR file not found!" && exit 1; fi
